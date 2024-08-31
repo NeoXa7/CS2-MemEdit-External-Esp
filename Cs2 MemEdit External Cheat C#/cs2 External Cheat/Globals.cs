@@ -11,7 +11,7 @@ namespace Globals
 
         public static string processName = "cs2";
         public static string moduleName = "client.dll";
-        public static int procID = memEdit.getProcIDFromName(processName);
+        public static int procID = memEdit.GetProcessID(processName);
         public static IntPtr client = memEdit.GetModuleBase(moduleName);
     }
 
