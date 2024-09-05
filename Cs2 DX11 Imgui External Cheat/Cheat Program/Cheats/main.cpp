@@ -13,29 +13,10 @@
 #include <Menu/ImGuiResourceLoader.h>
 #include <Menu/Interfaces.h>
 #include <Hacks/Hacks.h>
-
+#include <Functions/hConsole.h>
 
 HANDLE Memory::processHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, CS2::procID);
-
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-void CreateConsoleWindow(const wchar_t* title, int Width = 1000, int Height = 600)
-{
-	AllocConsole();
-	FILE* file;
-	freopen_s(&file, "CONOUT$", "w", stdout);  // Redirect stdout
-	freopen_s(&file, "CONIN$", "r", stdin);   // Redirect stdin
-	freopen_s(&file, "CONERR$", "w", stderr); // Redirect stderr
-
-	SetConsoleTitle(title);
-
-	HWND consoleWindow = GetConsoleWindow();
-	if (consoleWindow != NULL)
-	{
-		MoveWindow(consoleWindow, 100, 100, Width, Height, TRUE);
-	}
-}
-
 
 LRESULT CALLBACK Window_Procedure(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
 {
@@ -74,6 +55,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 	for (const auto& line : CheatTitle) {
 		SetConsoleTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
 		std::cout << line << std::endl;
+		//SetConsoleTextColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_GREEN);
 	}
 
 	cout << "  Last Updated 4th September 2024\n";
@@ -81,21 +63,22 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 	if (CS2::procID > 0 && CS2::clientAddress > 0)
 	{
 		SetConsoleTextColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);	
-		
 		cout << endl;
 		cout << "  CS2 Process ID : " << CS2::procID << '\n';
 		cout << "  Client Address : " << CS2::clientAddress << '\n';
 		cout << endl;
 		cout << "  Cheat Attached! \n";
+		CreateLogNotification("CONERR&");
 	}
 	else
 	{
-		SetConsoleTextColor(FOREGROUND_RED);
+		SetConsoleTextColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 		cout << endl;
 		cout << "  CS2 Process ID : " << CS2::procID << '\n';
 		cout << "  Client Address : " << CS2::clientAddress << '\n';
 		cout << endl;
-		cout << "  Cheat Failed To Attach \n";
+		cout << "  Cheat Failed To Attach! \n";
+		CreateLogNotification("CONERR&");
 	}
 
 
