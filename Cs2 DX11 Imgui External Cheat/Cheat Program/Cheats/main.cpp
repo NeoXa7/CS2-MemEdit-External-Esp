@@ -227,10 +227,13 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		Cheats::ProcessCheatInputs();
-		Cheats::InitializeBasicCheats();
-		RenderMenu();
-		
+		if (CS2::procID > 0)
+		{
+			Cheats::ProcessCheatInputs();
+			Cheats::InitializeBasicCheats();
+			RenderMenu();
+		}
+			
 		ImGui::Render();
 		constexpr float color[4]{ 0.f, 0.f, 0.f, 0.f };
 		device_context->OMSetRenderTargets(1U, &render_target_view, nullptr);
