@@ -276,7 +276,7 @@ void ProcessMenuInputs()
 	}
 
 	if (GetAsyncKeyState(VK_END) & 1) {
-		Flags::isRunning = false; // Close Program;
+		exit(0); // Close Program;
 	}
 }
 
